@@ -167,11 +167,30 @@ copyex:
 	str	r1, [r0]
 # endif
 
+
 	/* FCLK:HCLK:PCLK = 1:2:4 */
 	/* default FCLK is 120 MHz ! */
 	ldr	r0, =CLKDIVN
-	mov	r1, #3
+	mov	r1, #0x05
 	str	r1, [r0]
+	
+	/* 如果HDIVN非0，CPU的总线模式应该从“fast bus mode”变为“asynchronous bus mode” */
+	mrc p15,0,r1,c1,c0,0
+	orr r1,r1,#0xc0000000
+	mcr p15,0,r1,c1,c0,0
+	
+#define S3C2440_MPLL_400MHZ ((0x5c<<12)|(0x01<<4)|(0x01))
+	
+	ldr r0,=0x4c000004
+	ldr r1,=S3C2440_MPLL_400MHZ
+	str r1,[r0]
+	
+	/* 启动ICACHE */
+    mrc p15, 0, r0, c1, c0, 0    @ read control reg
+    orr r0, r0, #(1<<12)
+    mcr    p15, 0, r0, c1, c0, 0   @ write it back
+	
+	
 #endif	/* CONFIG_S3C24X0 */
 
 	/*
