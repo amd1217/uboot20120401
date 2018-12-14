@@ -323,7 +323,7 @@ static const struct amd_flash_info jedec_table[] = {
 			[1] = MTD_UADDR_0x0555_0x02AA /* x16 */
 		},
 		.DevSize	= SIZE_512KiB,
-		.CmdSet		= CFI_CMDSET_AMD_LEGACY,
+		.CmdSet		= P_ID_AMD_STD,
 		.NumEraseRegions= 4,
 		.regions	= {
 			ERASEINFO(0x04000,1),
@@ -343,10 +343,10 @@ static const struct amd_flash_info jedec_table[] = {
 		.CmdSet		= CFI_CMDSET_AMD_LEGACY,
 		.NumEraseRegions= 4,
 		.regions	= {
-			ERASEINFO(0x04000, 1),
-			ERASEINFO(0x02000, 2),
-			ERASEINFO(0x08000, 1),
-			ERASEINFO(0x10000, 15),
+			ERASEINFO(16*1024, 1),
+			ERASEINFO(8*1024, 2),
+			ERASEINFO(32*1024, 1),
+			ERASEINFO(16*1024, 31),
 		}
 	},
 	{
@@ -367,6 +367,25 @@ static const struct amd_flash_info jedec_table[] = {
 		}
 	},
 #endif
+	{
+		.mfr_id		= (u16)MX_MANUFACT,
+		.dev_id		= 0x2249,
+		.name		= "MXIC MX29LV160DB",
+		.uaddr		= {
+			[1] = MTD_UADDR_0x0555_0x02AA /* x16 */
+		},
+		.DevSize		= SIZE_2MiB,
+		.CmdSet			= P_ID_AMD_STD,
+		.NumEraseRegions	= 4,
+		.regions		= {
+			ERASEINFO(16*1024, 1),
+			ERASEINFO(8*1024, 2),
+			ERASEINFO(32*1024, 1),
+			ERASEINFO(64*1024, 31),
+		}
+	},
+
+
 };
 
 static inline void fill_info(flash_info_t *info, const struct amd_flash_info *jedec_entry, ulong base)
