@@ -61,7 +61,7 @@ static void s3c2440_hwcontrol(struct mtd_info *mtd, int cmd, unsigned int ctrl)
 			nand->nfcmd = cmd;
 		else
 			nand->nfaddr = cmd;
-	}
+	
 
 }
 
@@ -105,6 +105,22 @@ static int s3c2440_nand_correct_data(struct mtd_info *mtd, u_char *dat,
 	return -1;
 }
 #endif
+
+static void s3c2440_select_chip(struct mtd_info *mtd, int chipnr)
+{	
+    struct s3c2440_nand *nand = s3c2440_get_base_nand();
+	
+	if(chipnr==-1)
+	{
+		nand->nfcont |= (0x01<<1);
+	}
+	else
+	{
+		nand->nfcont &=~(0x01<<1);
+	}
+	
+}
+
 
 int board_nand_init(struct nand_chip *nand)
 {
@@ -162,15 +178,3 @@ int board_nand_init(struct nand_chip *nand)
 	return 0;
 }
 
-static void s3c2440_select_chip(struct mtd_info *mtd, int chipnr)
-{	
-	if(chipnr==-1)
-	{
-		my_regs->nfcont |= (0x01<<1);
-	}
-	else
-	{
-		my_regs->nfcont &=~(0x01<<1);
-	}
-	
-}
