@@ -217,7 +217,7 @@
 
 #define CONFIG_ENV_IS_IN_NAND
 #define CONFIG_ENV_SIZE			0x20000
-#define CONFIG_ENV_OFFSET       0xa0000
+#define CONFIG_ENV_OFFSET       0x80000
 #define CONFIG_ENV_RANGE       CONFIG_ENV_SIZE
 
 #define CONFIG_CMD_MTDPARTS
@@ -271,6 +271,7 @@
 
 #endif
 
+#define CONFIG_CMD_NAND_YAFFS
 
 /* additions for new relocation code, must be added to all boards */
 #define CONFIG_SYS_SDRAM_BASE	PHYS_SDRAM_1
